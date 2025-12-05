@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Seat</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">BusBook</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="routes.html">Routes</a></li>
+                <li><a href="booking.html" class="active">Book Tickets</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="profile.html">My Bookings</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2>Confirm Your Booking</h2>
+        <div class="booking-layout">
+            <div id="busDetails" class="bus-details-card">
+                </div>
+
+            <form id="paymentForm" class="payment-form">
+                <h3>Enter Booking Details</h3>
+                <div class="form-group">
+                    <label for="passengerName">Number of Passengers</label>
+                    <input type="number" id="passengerName" placeholder="Enter number of passengers" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="passengerAge">Seat Numbers (comma separated)</label>
+                    <input type="text" id="passengerAge" placeholder="e.g., 1,2,3,4" required>
+                </div>
+                
+                <h4>Payment Method (Demo)</h4>
+                <div class="form-group">
+                    <input type="text" placeholder="Card Number (e.g., 1234 5678 9012 3456)" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Cardholder Name" required>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div class="form-group" style="flex: 1;">
+                        <input type="text" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <input type="text" placeholder="CVC" required>
+                    </div>
+                </div>
+                <button type="submit">Confirm & Pay</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/booking.js"></script>
+</body>
+</html>

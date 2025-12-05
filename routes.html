@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Buses</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">BusBook</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="routes.html" class="active">Routes</a></li>
+                <li><a href="booking.html">Book Tickets</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="profile.html">My Bookings</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2>Available Buses</h2>
+        <h3 id="searchQueryTitle"></h3>
+        <div id="busList" class="bus-list-container">
+            </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

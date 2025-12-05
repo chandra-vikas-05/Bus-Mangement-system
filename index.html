@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Bus Booking</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">BusBook</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="routes.html">Routes</a></li>
+                <li><a href="booking.html">Book Tickets</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="profile.html">My Bookings</a></li>
+                <li><a href="admin.html" id="adminLink" style="display:none;">Admin Panel</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Find Your Bus & Travel</h1>
+            <form id="searchBusForm" class="search-form">
+                <input type="text" id="from" placeholder="From" required>
+                <input type="text" id="to" placeholder="To" required>
+                <input type="date" id="date" required>
+                <button type="submit">Search Buses</button>
+            </form>
+        </div>
+    </header>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

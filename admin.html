@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - Bus Booking</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .admin-tabs button {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .admin-tabs button.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+
+        .admin-tabs button:hover {
+            color: #007bff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .admin-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .form-two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .form-two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .admin-list {
+            margin-top: 20px;
+        }
+
+        .list-item {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #007bff;
+        }
+
+        .list-item-info h4 {
+            margin: 0 0 5px 0;
+        }
+
+        .list-item-info p {
+            margin: 2px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .list-item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .list-item-actions button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        .btn-edit {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-edit:hover {
+            background: #e0a800;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 4px solid #007bff;
+        }
+
+        .stat-card h3 {
+            margin: 10px 0 5px 0;
+            font-size: 28px;
+            color: #007bff;
+        }
+
+        .stat-card p {
+            margin: 0;
+            color: #666;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .admin-header h1 {
+            margin: 0;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-edit {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-edit:hover {
+            background: #e0a800;
+        }
+
+        .btn-add {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .btn-add:hover {
+            background: #218838;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+
+        .btn-save {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #0056b3;
+        }
+
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: #545b62;
+        }
+
+        .btn-save, .btn-cancel {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .search-box {
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Admin Login Section -->
+        <form id="adminLoginForm" class="auth-form">
+            <h2>Admin Portal Login</h2>
+            <p class="form-subtitle">Access admin controls and management tools</p>
+            <div class="form-group">
+                <input type="email" id="adminLoginEmail" placeholder="Admin Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="adminLoginPassword" placeholder="Password" required>
+            </div>
+            <button type="submit">Admin Login</button>
+            <p class="auth-link">Not an admin? <a href="login.html">Go to user login</a></p>
+        </form>
+
+        <!-- Admin Dashboard (Hidden until login) -->
+        <div id="adminDashboard" class="admin-section" style="display:none; max-width: 1200px; width: 100%;">
+            <div class="admin-header">
+                <h1>Admin Dashboard</h1>
+                <button class="logout-btn" id="adminLogoutBtn">Logout</button>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <p>Total Users</p>
+                    <h3 id="totalUsers">0</h3>
+                </div>
+                <div class="stat-card">
+                    <p>Total Buses</p>
+                    <h3 id="totalBuses">0</h3>
+                </div>
+                <div class="stat-card">
+                    <p>Total Routes</p>
+                    <h3 id="totalRoutes">0</h3>
+                </div>
+                <div class="stat-card">
+                    <p>Total Bookings</p>
+                    <h3 id="totalBookings">0</h3>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+                <button class="tab-btn" data-tab="buses">Manage Buses</button>
+                <button class="tab-btn" data-tab="routes">Manage Routes</button>
+                <button class="tab-btn" data-tab="users">Manage Users</button>
+                <button class="tab-btn" data-tab="bookings">Bookings</button>
+                <button class="tab-btn" data-tab="register-admin">Register Admin</button>
+            </div>
+
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <h2>Welcome to Admin Panel</h2>
+                <p>Use the tabs above to manage buses, routes, users, and bookings.</p>
+            </div>
+
+            <!-- Buses Tab -->
+            <div id="buses" class="tab-content">
+                <h2>Manage Buses</h2>
+                <form id="addBusForm">
+                    <div class="form-group">
+                        <input type="text" id="busName" placeholder="Bus Name" required>
+                    </div>
+                    <div class="form-two-col">
+                        <div class="form-group">
+                            <input type="number" id="busSeats" placeholder="Total Seats" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="busType" placeholder="Bus Type (AC, Non-AC)" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="busFare" placeholder="Fare per seat" step="0.01" required>
+                    </div>
+                    <button type="submit">Add Bus</button>
+                </form>
+                <div id="busList" class="admin-list"></div>
+            </div>
+
+            <!-- Routes Tab -->
+            <div id="routes" class="tab-content">
+                <h2>Manage Routes</h2>
+                <form id="addRouteForm">
+                    <div class="form-two-col">
+                        <div class="form-group">
+                            <input type="text" id="routeFrom" placeholder="From City" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="routeTo" placeholder="To City" required>
+                        </div>
+                    </div>
+                    <div class="form-two-col">
+                        <div class="form-group">
+                            <input type="number" id="routeDistance" placeholder="Distance (km)" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="routeDuration" placeholder="Duration (minutes)" required>
+                        </div>
+                    </div>
+                    <button type="submit">Add Route</button>
+                </form>
+                <div id="routeList" class="admin-list"></div>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="users" class="tab-content">
+                <h2>Manage Users</h2>
+                <div class="search-box">
+                    <input type="text" id="userSearch" placeholder="Search users by name or email...">
+                </div>
+                <div id="userList" class="admin-list"></div>
+            </div>
+
+            <!-- Bookings Tab -->
+            <div id="bookings" class="tab-content">
+                <h2>Bookings Management</h2>
+                <div id="bookingList" class="admin-list"></div>
+            </div>
+
+            <!-- Register Admin Tab -->
+            <div id="register-admin" class="tab-content">
+                <h2>Register New Admin</h2>
+                <form id="registerAdminForm">
+                    <div class="form-group">
+                        <input type="text" id="newAdminName" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="newAdminEmail" placeholder="Email" required>
+                    </div>
+                    <div class="form-two-col">
+                        <div class="form-group">
+                            <input type="password" id="newAdminPassword" placeholder="Password" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="newAdminConfirm" placeholder="Confirm Password" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="newAdminPhone" placeholder="Phone Number">
+                    </div>
+                    <button type="submit">Register Admin</button>
+                </form>
+                <div id="adminList" class="admin-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Bus Modal -->
+    <div id="editBusModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Bus</h2>
+                <button class="close-modal" onclick="closeModal('editBusModal')">&times;</button>
+            </div>
+            <form id="editBusForm">
+                <div class="form-group">
+                    <label>Bus Name</label>
+                    <input type="text" id="editBusName" required>
+                </div>
+                <div class="form-two-col">
+                    <div class="form-group">
+                        <label>Total Seats</label>
+                        <input type="number" id="editBusSeats" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Bus Type</label>
+                        <input type="text" id="editBusType" required>
+                    </div>
+                </div>
+                <div class="form-two-col">
+                    <div class="form-group">
+                        <label>Price Per Seat</label>
+                        <input type="number" id="editBusPrice" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="editBusStatus">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-cancel" onclick="closeModal('editBusModal')">Cancel</button>
+                    <button type="submit" class="btn-save">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Route Modal -->
+    <div id="editRouteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Route</h2>
+                <button class="close-modal" onclick="closeModal('editRouteModal')">&times;</button>
+            </div>
+            <form id="editRouteForm">
+                <div class="form-two-col">
+                    <div class="form-group">
+                        <label>Source</label>
+                        <input type="text" id="editRouteSource" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Destination</label>
+                        <input type="text" id="editRouteDestination" required>
+                    </div>
+                </div>
+                <div class="form-two-col">
+                    <div class="form-group">
+                        <label>Distance (km)</label>
+                        <input type="number" id="editRouteDistance" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (minutes)</label>
+                        <input type="number" id="editRouteDuration" required>
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-cancel" onclick="closeModal('editRouteModal')">Cancel</button>
+                    <button type="submit" class="btn-save">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit User</h2>
+                <button class="close-modal" onclick="closeModal('editUserModal')">&times;</button>
+            </div>
+            <form id="editUserForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="editUserName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="editUserEmail" required>
+                </div>
+                <div class="form-two-col">
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="editUserPhone">
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select id="editUserRole">
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" id="editUserAddress">
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-cancel" onclick="closeModal('editUserModal')">Cancel</button>
+                    <button type="submit" class="btn-save">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
