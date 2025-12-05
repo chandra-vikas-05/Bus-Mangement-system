@@ -50,10 +50,10 @@ Backend will run on `http://localhost:5001`
 cd ..
 node server.js
 ```
-Frontend will run on `http://localhost:3000`
+Frontend will run on `http://127.0.0.1:5500/`
 
 ### Step 3: Access the Application
-Open your browser and navigate to: `http://localhost:3000`
+Open your browser and navigate to: `http://127.0.0.1:5500/`
 
 ## Features
 
